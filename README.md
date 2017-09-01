@@ -8,7 +8,7 @@ I have not done any testing to see how many characters is required.
 
 
 ## Usecase ##
-RenameHistogramdiffs 
+RenameHistogramdiffs  
 I am a big believer of the shotgun approach, meaning that it automatically renames all the files in the current directory.  
 
 

@@ -8,11 +8,10 @@ I have not done any testing to see how many characters is required.
 
 
 ## Usecase ##
-Currently (sept 2017), the program requires a bat file to be run in order to rename files in a directory.  
-Curent command: RenameHistogramdiffs input.jpg  
-I am a big believer of the shotgun approach, meaning that in the future I would like to just run RenameHistogramdiffs and it would automatically rename all the files in the current directory.  
+RenameHistogramdiffs 
+I am a big believer of the shotgun approach, meaning that it automatically renames all the files in the current directory.  
 
 
 ## TODO ##
-Rename all files in the current directory  
+
 If file already exists, rename to output and a increasing integer.

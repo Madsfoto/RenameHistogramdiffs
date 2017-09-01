@@ -159,8 +159,33 @@ namespace RenameHistogramdiffs
         static void Main(string[] args)
         {
             Program p = new Program();
-            var paths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.bat");
+            var paths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.jpg");
+            int numberOfMaxDegreeOfParallelismInt = 3;
+            if (args == null || args.Length == 0)
+            {
+                Console.WriteLine("The default is to have 3 parallel executions at once, overwrite with a commandline argument");
+                numberOfMaxDegreeOfParallelismInt = 3; // Set to 3, which is 75% of a quadcore machine which I expect is the minimum amount of cores,
+                // that people who are interested in this program will have. I give the posibility to overwrite the default by giving an argument, 
+                // so people with more cores can use them all at once.
+            }
+            else
+            {
 
+                string strMaxDegrees = args[0];
+                numberOfMaxDegreeOfParallelismInt = Convert.ToInt32(strMaxDegrees);
+                Console.WriteLine("Executing " + numberOfMaxDegreeOfParallelismInt + " files at once");
+            }
+            Parallel.ForEach(paths, new ParallelOptions { MaxDegreeOfParallelism = numberOfMaxDegreeOfParallelismInt }, (currentFile) =>
+            {
+                String fileName = Path.GetFileName(currentFile); // Test if filename is required, can currentFile be used?
+
+                // Console.WriteLine("started " + currentFile);  // Disabled because it does not matter to the viewer which file is being executed,
+                // The progress indicator is the important thing.
+                
+                p.RenameFiles(currentFile); // moved the executing logic to a function, so it's self contained and thus will not generate the exceptions seen before. 
+                
+                
+            });
 
 
 

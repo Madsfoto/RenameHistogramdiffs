@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenameHistogramdiffs", "RenameHistogramdiffs\RenameHistogramdiffs.csproj", "{F14FD059-4CEF-44B3-A00D-467CC2D277DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F14FD059-4CEF-44B3-A00D-467CC2D277DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14FD059-4CEF-44B3-A00D-467CC2D277DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14FD059-4CEF-44B3-A00D-467CC2D277DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F14FD059-4CEF-44B3-A00D-467CC2D277DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F0EC861-835C-42BC-84D5-6801CD082003}
+	EndGlobalSection
+EndGlobal

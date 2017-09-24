@@ -20,6 +20,7 @@ namespace RenameHistogramdiffs
         Double prevDoub = 0;
         double thisDoub = 0;
         string filenameStr = "";
+        public int currentCount = 0;
 
 
         public double[] Histogram1(Bitmap sourceImage)
@@ -108,13 +109,19 @@ namespace RenameHistogramdiffs
         {
             return filenameStr;
         }
+        public int imgsDone()
+        {
+            return currentCount;
+        }
 
         public void RenameFiles(string inputStr)
         {
+            int BmSize = 16;
             Bitmap bm2 = new Bitmap(inputStr);
 
-            Bitmap bm = new Bitmap(bm2, 16, 16);
+            Bitmap bm = new Bitmap(bm2, BmSize, BmSize);
             double[] doubleArr = Histogram1(bm);
+            
             foreach (double d in doubleArr)
             {
                 if (d == 0)
@@ -137,6 +144,7 @@ namespace RenameHistogramdiffs
             if (newFileName.Length > MaxLength)
                 newFileName = newFileName.Substring(0, MaxLength);
             string outputname = newFileName + ".jpg";
+          
             // Console.WriteLine("ren " + args[0] + " " + newFileName + ".jpg");
             bm.Dispose();
             bm2.Dispose();
@@ -147,11 +155,8 @@ namespace RenameHistogramdiffs
             }
             catch
             {
-                // The Parallel.ForEach function seems to have an issue with my way of executing.
-                // It gives Execption IO errors, the file is in use by another process. 
-                // This way those exceptions are ignored and the process can continue through the set of .bat files. 
-                // This assumes that the process completes in order, which it should because if the file is not deleted then it can be re-run.
-                // If that is not the case, I'll figure something else out. 
+                Interlocked.Increment(ref currentCount);
+                File.Move(inputStr, newFileName + currentCount + ".jpg");
             }
 
         }
@@ -160,22 +165,9 @@ namespace RenameHistogramdiffs
         {
             Program p = new Program();
             var paths = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.jpg");
-            int numberOfMaxDegreeOfParallelismInt = 3;
-            if (args == null || args.Length == 0)
-            {
-                Console.WriteLine("The default is to have 3 parallel executions at once, overwrite with a commandline argument");
-                numberOfMaxDegreeOfParallelismInt = 3; // Set to 3, which is 75% of a quadcore machine which I expect is the minimum amount of cores,
-                // that people who are interested in this program will have. I give the posibility to overwrite the default by giving an argument, 
-                // so people with more cores can use them all at once.
-            }
-            else
-            {
 
-                string strMaxDegrees = args[0];
-                numberOfMaxDegreeOfParallelismInt = Convert.ToInt32(strMaxDegrees);
-                Console.WriteLine("Executing " + numberOfMaxDegreeOfParallelismInt + " files at once");
-            }
-            Parallel.ForEach(paths, new ParallelOptions { MaxDegreeOfParallelism = numberOfMaxDegreeOfParallelismInt }, (currentFile) =>
+
+            foreach(string currentFile in paths)
             {
                 String fileName = Path.GetFileName(currentFile); // Test if filename is required, can currentFile be used?
 
@@ -183,15 +175,15 @@ namespace RenameHistogramdiffs
                 // The progress indicator is the important thing.
                 
                 p.RenameFiles(currentFile); // moved the executing logic to a function, so it's self contained and thus will not generate the exceptions seen before. 
-                
-                
-            });
+                Interlocked.Increment(ref p.currentCount);
+                Console.WriteLine("Images done this session = " + p.imgsDone());
+            };
 
-
+            
 
 
             string inputString = args[0];
-            p.RenameFiles(inputString);
+            
 
 
 
